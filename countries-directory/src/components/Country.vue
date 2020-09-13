@@ -1,19 +1,18 @@
 <template>
   <div class="country-box" @click="toggleShowInfo">
-    <h2>{{ country.name }} <img :src="country.flag" :alt="country.name + ' flag'" width="30" height="20"></h2>
-    <div v-show="showInfo">
-      <p>
-        <b>Region:</b>
-        {{ country.region }}
-      </p>
-      <p>
-        <b>Population:</b>
-        {{ country.population }}
-      </p>
-      <p>
-        <b>Capital:</b>
-        {{ country.capital }}
-      </p>
+    <div>
+      <b-card :title="country.name">
+        <!-- <b-card-title> -->
+        <b-card-text v-show="showInfo">
+          <img :src="country.flag" :alt="country.name + ' flag'" height="50" />
+          <b>Region:</b>
+          {{ country.region }}
+          <b>Population:</b>
+          {{ country.population }}
+          <b>Capital:</b>
+          {{ country.capital }}
+        </b-card-text>
+      </b-card>
     </div>
   </div>
 </template>
@@ -22,22 +21,21 @@
 export default {
   name: "Country",
   props: ["country"],
-  data(){
-      return {
-          showInfo: false
-      }
+  data() {
+    return {
+      showInfo: false,
+    };
   },
   methods: {
-      toggleShowInfo() {
-          this.showInfo = !this.showInfo
-      }
-  }
-}
+    toggleShowInfo() {
+      this.showInfo = !this.showInfo;
+    },
+  },
+};
 </script>
 
 <style>
 .country-box {
-  border-style: groove;
   width: 600px;
   margin: auto;
 }

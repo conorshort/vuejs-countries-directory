@@ -16,7 +16,12 @@ export default {
   },
   props: [
     "countries"
-  ]
+  ],
+  data() {
+    return {
+
+    }
+  }
 }
 </script>
 
