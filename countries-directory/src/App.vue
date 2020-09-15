@@ -1,16 +1,57 @@
 <template>
   <div id="app">
     <div>
-      <b-navbar toggleable="lg" type="dark" variant="info">
-        <b-navbar-brand href="#">Countries Directory</b-navbar-brand>
+      <b-navbar toggleable="lg" type="dark" id="navbar" variant="nav">
+        <b-navbar-brand id="navbar-title">Countries Directory</b-navbar-brand>
       </b-navbar>
     </div>
-    <search-filter @search-changed="updateSearchText" />
-    <range-filter @slider-changed="updatePopRange" :minMax="minMaxPop" />
-    <range-filter @slider-changed="updateAreaRange" :minMax="minMaxArea" />
-    <dropdown-filter @dropdown-updated="updateSelectedRegions" :optionsList="allRegions" />
-    <sort-buttons @input="sortCountries" />
-    <CountryList :countries="filteredCountries" />
+    <b-container fluid class="p-0">
+      <b-row no-gutters>
+        <b-col cols="12" md="5" class>
+          <b-button class="mb-2 d-md-none" block variant="outline-accent" @click="showFilters = ! showFilters">
+            Show Filters
+            <b-icon
+              :icon="! showFilters ? 'chevron-compact-down' : 'chevron-compact-up'"
+              aria-hidden="true"
+            ></b-icon>
+          </b-button>
+          <div
+            class="border-right p-2 dark-background"
+            id="filter-div"
+            :class="showFilters ? '' : 'zero-height'"
+          >
+            <h4 class="text-left m-3">Filters:</h4>
+            <range-filter @slider-changed="updatePopRange" :minMax="minMaxPop">Population:</range-filter>
+            <range-filter @slider-changed="updateAreaRange" :minMax="minMaxArea">Area:</range-filter>
+            <dropdown-filter
+              @dropdown-updated="updateSelectedRegions"
+              :optionsList="allRegions"
+            >Region:</dropdown-filter>
+          </div>
+        </b-col>
+        <b-col cols="12" md="7" id="countries-col">
+          <div class="countries-div">
+            <b-row
+              align-v="center"
+              align-h="start"
+              class="mt-0 mb-5 p-3 border-bottom light-background"
+            >
+              <b-col cols="12" md="4">
+                <search-filter @search-changed="updateSearchText" />
+              </b-col>
+              <b-col cols="12" md="8">
+                <sort-buttons @input="sortCountries" />
+              </b-col>
+            </b-row>
+            <b-row>
+              <b-col>
+                <CountryList :countries="filteredCountries" />
+              </b-col>
+            </b-row>
+          </div>
+        </b-col>
+      </b-row>
+    </b-container>
   </div>
 </template>
 
@@ -42,6 +83,7 @@ export default {
       areaRange: [],
       allRegions: [],
       selectedRegions: [],
+      showFilters: false
     };
   },
   computed: {
@@ -55,7 +97,7 @@ export default {
   },
   methods: {
     sortCountries(keyToSortBy, isReversed) {
-      let countries = this.alphaCountries
+      let countries = this.alphaCountries;
 
       countries.sort((a, b) => {
         let aVal = a[keyToSortBy];
@@ -132,7 +174,7 @@ export default {
     axios.get("https://restcountries.eu/rest/v2/all").then((response) => {
       this.countries = response.data;
       this.alphaCountries = [...this.countries];
-      this.alphaCountries.sort( (a,b) => a.name.localeCompare(b.name))
+      this.alphaCountries.sort((a, b) => a.name.localeCompare(b.name));
       let pop, area;
       ({ pop, area } = this.getMinMax());
       this.minMaxPop = pop;
@@ -149,12 +191,37 @@ export default {
 
 <style>
 @import url("https://fonts.googleapis.com/css2?family=Nunito&display=swap");
-
 #app {
   font-family: Nunito, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
+  color: #9d8d8f;
+  background-color: #514e52;
+}
+#countries-col {
+  height: calc(100vh - 56px);
+  overflow-y: scroll;
+}
+
+#navbar-title {
   color: #2c3e50;
+}
+
+.dark-background {
+  background: #514e52;
+}
+.light-background {
+  background: #514e52;
+}
+
+#filter-div {
+  height: 100%;
+}
+ @media only screen and (max-width: 768px) {
+    .zero-height{
+    height: 0px;
+    overflow: hidden;
+  }
 }
 </style>

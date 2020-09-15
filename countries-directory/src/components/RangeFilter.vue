@@ -1,5 +1,6 @@
 <template>
-  <div>
+  <div class="border-bottom p-1 m-1 mb-3">
+    <h6 class="text-left ml-2 pb-4"><slot></slot></h6>
     <VueSimpleRangeSlider
       style="width: 300px"
       :min="minMax[0]"
@@ -7,6 +8,8 @@
       :logarithmic="true"
       v-model="range"
       @input="$emit('slider-changed', range)"
+      barColor="#9d8d8f"
+      activeBarColor="#faed26"
     />
   </div>
 </template>
@@ -31,3 +34,8 @@ export default {
   },
 };
 </script> 
+<style>
+.simple-range-slider-popover {
+  color: #d1bfbf;
+}
+</style>

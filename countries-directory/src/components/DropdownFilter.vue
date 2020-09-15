@@ -1,6 +1,8 @@
 <template>
   <div>
-    <label>Select region</label>
+    <h6 class="text-left ml-2 pb-2">
+      <slot></slot>
+    </h6>
     <multiselect
       v-model="value"
       :options="options"
@@ -39,7 +41,7 @@ export default {
   watch: {
     // whenever question changes, this function will run
     optionsList: function (newOptions) {
-      this.options =newOptions
+      this.options = newOptions;
       //this.$emit('slider-changed', this.range)
     },
   },

@@ -1,0 +1,11 @@
+// File: custom.scss
+
+$theme-colors: (
+  "accent": #d1bfbf,
+  "nav" : #faed26
+);
+
+// Include Bootstrap and BootstrapVue SCSS files
+@import '~bootstrap/scss/bootstrap.scss';
+@import '~bootstrap-vue/src/index.scss';
+
